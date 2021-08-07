@@ -7,6 +7,7 @@
 - [JavaScript](#javascript)
 - [JavaScript-Absolutely Must Know As A Developer](#javascript-absolutely-must-know-as-a-developer)
 - [Writing neat asynchronous Node JS code with Promises](#writing-neat-asynchronous-node-js-code-with-promises)
+- [JavaScript: The Advanced Concepts Study Notes (Live)]
 - [What’s New in JavaScript ES2020?](#whats-new-in-javascript-es2020)
 
 # HTML
