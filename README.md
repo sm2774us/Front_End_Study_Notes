@@ -1,10 +1,10 @@
 # Table of Contents
 
-- [HTML](#html)
+- [**HTML**]
   - [HTML-Absolutely Must Know As A Developer](#html-absolutely-must-know-as-a-developer)
-- [CSS]
+- [**CSS**]
   - [CSS-Absolutely Must Know As A Developer](#css-absolutely-must-know-as-a-developer)
-- [JavaScript]
+- [**JavaScript**]
   - [Modern JavaScript Cheatsheet](./modern-js-cheatsheet.md)
   - [JavaScript-Absolutely Must Know As A Developer](./javascript-absolutely-must-know-as-a-developer.md)
   - [Writing neat asynchronous Node JS code with Promises](./writing-neat-asynchronous-node-js-code-with-promises.md)
