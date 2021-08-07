@@ -3072,7 +3072,7 @@ If you are looking for advanced usage of Promises, then make sure you go through
 
 - [Getting Started](#getting-started)
 - [System Overview](#system-overview)
-- [1. Promise.allSettled()](#1-promise-allsettled)
+- [1. Promise.allSettled()](#1-promiseallsettled)
 - [2. Optional Chaining](#2-optional-chaining)
 - [3. Nullish Coalescing](#3-nullish-coalescing)
 - [4. globalThis](#4-globalthis)
