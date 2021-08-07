@@ -9,7 +9,11 @@
 
 # HTML
 
+# HTML-Absolutely Must Know As A Developer
+
 # CSS
+
+# CSS-Absolutely Must Know As A Developer
 
 # JavaScript
 
@@ -1823,7 +1827,12 @@ A variable is said to be *immutable* if it can't be mutated.
 
 ---
 
-#JavaScript-Absolutely Must Know As A Developer
+# JavaScript-Absolutely Must Know As A Developer
+
+## Table of Contents
+
+- [Understand the JS functions well](#understand-the-js-functions-well)
+- [Understand `bind`, `apply`, and `call`](#understand-bind--apply--and--call)
 
 ## 1) Understand the JS functions well
 Functions are the cream of JavaScript. They are the first class citizens. Without knowing JS functions in depth, your knowledge is severely caveated. A JS function is more than a normal function. Unlike in other languages, a function can be assigned to a variable, passed around as an argument to another function and can also be returned from another. Hence, it is the first class citizen in the JS.
