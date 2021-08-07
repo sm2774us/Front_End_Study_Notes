@@ -1831,8 +1831,18 @@ A variable is said to be *immutable* if it can't be mutated.
 
 ## Table of Contents
 
-- [Understand the JS functions well](#understand-the-js-functions-well)
-- [Understand `bind`, `apply`, and `call`](#understand-bind--apply--and--call)
+- [1) Understand the JS functions well](#understand-the-js-functions-well)
+- [2) Understand `bind`, `apply`, and `call`](#2-understand-bind-apply-and-call)
+- [3) Understand JavaScript scope well (Closures as well)](#3-understand-javascript-scope-well-closures-as-well)
+- [4) Understand this keyword well (global, function and object scopes)](#4-understand-this-keyword-well-global-function-and-object-scopes)
+- [5) Understand objects well (Object.freeze, Object.seal)](#5-understand-objects-well-objectfreeze-objectseal)
+- [6) Understand Prototypical Inheritance well](#6-understand-prototypical-inheritance-well)
+- [7) Understand the callbacks and promises well](#7-understand-the-callbacks-and-promises-well/)
+- [8) Understand the regular expressions well](#8-understand-the-regular-expressions-well)
+- [9) Understand Map, Reduce and Filter well](#9-understand-map-reduce-and-filter-well)
+- [10) Understand Error handling patterns](#10-understand-error-handling-patterns)
+- [Other things to know (Hoisting, Event Bubbling)](#other-things-to-know-hoisting-event-bubbling)
+- [References](#references)
 
 ## 1) Understand the JS functions well
 Functions are the cream of JavaScript. They are the first class citizens. Without knowing JS functions in depth, your knowledge is severely caveated. A JS function is more than a normal function. Unlike in other languages, a function can be assigned to a variable, passed around as an argument to another function and can also be returned from another. Hence, it is the first class citizen in the JS.
