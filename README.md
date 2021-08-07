@@ -1830,8 +1830,7 @@ A variable is said to be *immutable* if it can't be mutated.
 # JavaScript-Absolutely Must Know As A Developer
 
 ## Table of Contents
-
-- [1) Understand the JS functions well](#understand-the-js-functions-well)
+- [1) Understand the JS functions well](#1-understand-the-js-functions-well)
 - [2) Understand `bind`, `apply`, and `call`](#2-understand-bind-apply-and-call)
 - [3) Understand JavaScript scope well (Closures as well)](#3-understand-javascript-scope-well-closures-as-well)
 - [4) Understand this keyword well (global, function and object scopes)](#4-understand-this-keyword-well-global-function-and-object-scopes)
