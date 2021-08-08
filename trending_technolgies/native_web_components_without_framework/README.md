@@ -24,6 +24,9 @@
 	- [The lifecycle model](#the-lifecycle-model)
     - [Attributes vs. Properties](#attributes-vs-properties)
   - [**Encapsulate your Web Component with the shadow DOM**](#encapsulate-your-web-component-with-the-shadow-dom)
+    <details>
+    <summary>Click to expand!</summary>
+
     - [Attach a shadow from an HTML element](#attach-a-shadow-from-an-html-element)
   - [**Get your markup inside a Web Component**](#get-your-markup-inside-a-web-component)
   - [**How to style your Web Component**](#how-to-style-your-web-component)
