@@ -20,10 +20,10 @@
 	  - [Semantics](#semantics)
 	  - [Encapsulation](#encapsulation)
 	- [Business Perks of Web Components](#business-perks-of-web-components)
-	  - [Reusability](#reusability)
+	  - [Reusability](#reusability-1)
 	  - [Browser Standards](#browser-standards)
 	- [Summary](#summary)
-  - [**Part 3: The Flaws of Web Components (And Possible Solutions)**](#part-3-the-flaws-of-web-components)
+  - [**Part 3: The Flaws of Web Components (And Possible Solutions)**](#part-3-the-flaws-of-web-components-and-possible-solutions)
     <details>
     <summary>Click to expand!</summary>
     
@@ -231,7 +231,7 @@ In this article, we learned a lot about the perks of Web Components. They are no
 
 When creating Web Components, we also need to think about our APIs. On the one hand, we have the JavaScript APIs. On the other hand, there are CSS APIs with Shadow Parts and CSS variables. Thinking about and shaping your component's API helps to create small, reusable, and very specific Web Components.
 
-Where perks are, there are also flaws. Find more about [the downsides of using Native Web Components](#part-3-the-flaws-of-web-components) in the third part.
+Where perks are, there are also flaws. Find more about [the downsides of using Native Web Components](#part-3-the-flaws-of-web-components-and-possible-solutions) in the third part.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -641,7 +641,7 @@ In the [upcoming article](#part-4-data-sharing--framework-integration), we are g
 
 ## **Part 4: Data Sharing & Framework Integration**
 
-In this four part [article series](#part-1-the-motivation-for-web-components-and-introduction), we are exploring the [perks](#part-2-perks-of-web-components), [flaws](#part-3-the-flaws-of-web-components), and current standards of forming Web Components. This last article will teach you how Web Components can share data and services, and which role frameworks play.
+In this four part [article series](#part-1-the-motivation-for-web-components-and-introduction), we are exploring the [perks](#part-2-perks-of-web-components), [flaws](#part-3-the-flaws-of-web-components-and-possible-solutions), and current standards of forming Web Components. This last article will teach you how Web Components can share data and services, and which role frameworks play.
 
 ### Sharing Data and Services
 
@@ -677,7 +677,7 @@ Now imagine a world, in which Web Components are built with big frameworks, like
 
 A possible solution is not to use a framework at all. That may work for smaller Web Components or smaller applications. However, for bigger applications, that is simply not suitable.
 
-The next step would be to create your own framework instead of relying on others. If you plan to create a component library for your own applications, that may be a valid option. For sure, it comes at costs of creating the core foundation of the framework, creating your own build pipeline, and so on. You have to consider many things from the [third article about the flaws of Web Components](#part-3-the-flaws-of-web-components).
+The next step would be to create your own framework instead of relying on others. If you plan to create a component library for your own applications, that may be a valid option. For sure, it comes at costs of creating the core foundation of the framework, creating your own build pipeline, and so on. You have to consider many things from the [third article about the flaws of Web Components](#part-3-the-flaws-of-web-components-and-possible-solutions).
 
 Another way is changing how you bundle a Web Component. Either you stuff the whole (tree-shaked) framework into each Web Component, or only the host application is responsible for loading the framework. Each Web Component just assumes that the framework has been loaded correctly and uses it. That could work because JavaScript is still globally scoped. But, have in mind that you can only load the whole framework this way. Tree-shaking is hardly possible because you do not know, which components may be loaded. If you do know, you can still use all techniques to get a smaller bundle size.
 
@@ -708,7 +708,7 @@ Vue.js has it's own wrapper `@vue/web-component-wrapper` which helps to wrap Vue
 
 Angular Elements wraps your normal Angular components into Web Components. It integrates nicely with the Angular CLI, so basically, you have the whole Angular ecosystem available. Thanks to Ivy, the bundle size starts to decrease. If you rely on the `OnPush` change detection strategy, you can even remove `zone.js` to decrease the bundle size even more!
 
-In my view, both Stencil.js and Angular Elements have the best toolchain and support for creating Web Components. In the end, when using Angular Elements, there is not much to care about, it works pretty well out of the box. However, as mentioned in the [third article about the flaws of Web Components](](#part-3-the-flaws-of-web-components), they lack type definitions when it comes to the usage of Web Components, even when built with Angular.
+In my view, both Stencil.js and Angular Elements have the best toolchain and support for creating Web Components. In the end, when using Angular Elements, there is not much to care about, it works pretty well out of the box. However, as mentioned in the [third article about the flaws of Web Components](](#part-3-the-flaws-of-web-components-and-possible-solutions), they lack type definitions when it comes to the usage of Web Components, even when built with Angular.
 
 **A Little Angular Note**
 Since I am an Angular developer, I want to make a little side note. If you want to consume Web Components, you need to add the `CUSTOM_ELEMENTS_SCHEMA`. With that enabled, a lot of compiler checks for unknown properties on elements are disabled. That could lead to misbehavior of your application. I highly recommend creating an Angular module, which only wraps your Web Components and use `CUSTOM_ELEMENTS_SCHEMA` in there, so the other parts of your application are not affected by it. [Like I have done with Palaver](https://github.com/thinktecture-labs/web-components-chat/tree/master/frontend/apps/ng-chat-app/src/app/web-component-wrappers).
