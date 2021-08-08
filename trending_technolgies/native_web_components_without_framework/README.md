@@ -775,7 +775,7 @@ In this article, we have looked into the world of Web Components based on a samp
 
 To get a little bit more help to build Web Components and get a bit more browser compatibility, you can use [LitElement](https://lit-element.polymer-project.org/). LitElement is a simple base class from the [Polymer Project](https://www.polymer-project.org/) to create fast and lightweight Web Components.
 
-So try it out, fiddle around with them, and create your first small Web Components for your application. If you want to see all the code and try out the sample, you can [find the demo here](./demo/README.md).
+So try it out, fiddle around with them, and create your first small Web Components for your application. If you want to see all the code and try out the sample, you can [find the demo here](./demo).
 
 Web Components is a set of different technology being used together to help you write reusable elements that are encapsulated from the rest of your code. On the other hand, React is a JavaScript library meant to help you write user interface in a declarative way.
 
