@@ -14,6 +14,11 @@
   - [What’s New in JavaScript ES2020?](./JavaScript/whats-new-in-javascript-es2020.md)
 - [**TypeScript**]
   - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+- [**React**]
+  - [The React Cheatsheet for 2021‬ (+ Real-World Examples)](./React/the-react-cheatsheet-for-2021.md)
+  - [React Reference Guide: Hooks API](./React/react-reference-guide-hooks-api.md)
+  - [React Hooks cheat sheet: Best practices with examples](./React/react-hooks-cheat-sheet.md)
+  - [React+TypeScript Cheatsheets : Cheatsheets for experienced React developers getting started with TypeScript](./React/react_plus_typescript_cheatsheet/README.md)
 - [**Trending Front-End Technologies**]
   - [Web Components - A Four Part Series](./TrendingTechnolgies/web_components/README.md)
   - [How To Create A Native Web Component Without A Framework](./TrendingTechnolgies/native_web_components_without_framework/README.md)
