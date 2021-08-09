@@ -1,0 +1,7 @@
+# Idea ide files
+*.iml
+.idea
+git.properties
+*.log
+*.pid
+target/

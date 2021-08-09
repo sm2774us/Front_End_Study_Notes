@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>my-spring-boot</artifactId>
+        <groupId>com.harishkannarao.spring</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>RestExample</artifactId>
+    <packaging>pom</packaging>
+    <name>Rest Example</name>
+    <modules>
+        <module>RestServiceTestConfig</module>
+        <module>RestServiceThirdPartyStub</module>
+        <module>RestServiceThirdPartyStubApplication</module>
+        <module>RestServiceAndConsumer</module>
+        <module>RestServiceAndConsumerFunctionalTest</module>
+        <module>RestServiceAndConsumerFunctionalTestWithoutMocks</module>
+        <module>RestServiceAndConsumerBddTest</module>
+        <module>RestServiceAndConsumerBddTestWithMocks</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.harishkannarao.spring</groupId>
+                <artifactId>RestServiceAndConsumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.harishkannarao.spring</groupId>
+                <artifactId>RestServiceThirdPartyStub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.harishkannarao.spring</groupId>
+                <artifactId>RestServiceTestConfig</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
