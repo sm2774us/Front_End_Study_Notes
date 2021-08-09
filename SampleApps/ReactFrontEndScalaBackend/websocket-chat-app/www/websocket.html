@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<!--materialize css-->
+<link href="jslib/materialize/materialize.min.css" rel="stylesheet">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">-->
+
+<script language="javascript" type="text/javascript">
+    var querys = window.location.search.replace('?','').split("&");
+    var username = "";
+    var chatid = "";
+    for(var i = 0; i < querys.length; i++) {
+        var paramkv = querys[i].split("=");
+        if (paramkv.length == 2) {
+            var paramk = paramkv[0].trim();
+            var paramv = paramkv[1].trim();
+            if (paramk == "username") {
+                username = paramv;
+            }
+            if (paramk == "chatid") {
+                chatid = paramv;
+            }
+        }
+    }
+    var host = window.location.host;
+    var wsUri = "ws://" + host + "/ws-push";
+
+    var output;
+    //用于接收字符串消息
+    var websocket = new WebSocket(wsUri);
+    websocket.binaryType = 'arraybuffer';
+
+    function init() {
+        output = document.getElementById("output");
+        listenWebsocket(websocket);
+        $('.modal').modal();
+    }
+    function listenWebsocket(ws) {
+        ws.onopen = function(evt) {
+            onOpen(evt)
+        };
+        ws.onclose = function(evt) {
+            onClose(evt)
+        };
+        ws.onmessage = function(evt) {
+            onMessage(evt)
+        };
+        ws.onerror = function(evt) {
+            onError(evt)
+        };
+    }
+
+    function onOpen(evt) {
+        showMessage("CONNECTED");
+    }
+
+    function onClose(evt) {
+        i = i + 1;
+        showMessage("DISCONNECTED");
+        if (i < 3) {
+            listenWebsocketToken();
+        }
+    }
+
+    function onMessage(evt) {
+        if (event.data instanceof ArrayBuffer) {
+            //假如是二进制消息
+            showBinaryImage(evt.data);
+        } else {
+            //假如是字符串消息
+            showMessage('<span style="color: blue;">' + evt.data + '</span>');
+        }
+    }
+
+    function onError(evt) {
+        showMessage('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+
+    //send message through websocket
+    function sendMessage(message) {
+        websocket.send(message);
+    }
+
+    function utf8StringToArrayBuffer(s) {
+        var escstr = encodeURIComponent(s);
+        var binstr = escstr.replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        });
+        var ua = new Uint8Array(binstr.length);
+        Array.prototype.forEach.call(binstr, function (ch, i) {
+            ua[i] = ch.charCodeAt(0);
+        });
+        return ua;
+    }
+
+    function arrayBufferToUtf8String(ua) {
+        var binstr = Array.prototype.map.call(ua, function (ch) {
+            return String.fromCharCode(ch);
+        }).join('');
+        var escstr = binstr.replace(/(.)/g, function (m, p) {
+            var code = p.charCodeAt(p).toString(16).toUpperCase();
+            if (code.length < 2) {
+                code = '0' + code;
+            }
+            return '%' + code;
+        });
+        return decodeURIComponent(escstr);
+    }
+
+    function concatenateBuffers(buffA, buffB) {
+        var byteLength = buffA.byteLength + buffB.byteLength;
+        var resultBuffer = new ArrayBuffer(byteLength);
+        var resultView = new Uint8Array(resultBuffer);
+        var viewA = new Uint8Array(buffA);
+        var viewB = new Uint8Array(buffB);
+        resultView.set(viewA);
+        resultView.set(viewB, viewA.byteLength);
+        return resultView.buffer
+    }
+
+    //send file through websocket
+    function sendFile() {
+        var file = document.getElementById('fileName').files[0];
+        var isImage = file.type.startsWith("image/");
+        var isFitSize = file.size < 2048 * 1024;
+        if (isImage && isFitSize) {
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onloadend = function() {
+                var fileInfo = {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type
+                };
+                var fileInfoStr = JSON.stringify(fileInfo) + "<#BinaryInfo#>";
+                var fileInfoBuf = utf8StringToArrayBuffer(fileInfoStr);
+                var fileBuf = reader.result;
+                var mixBuf = concatenateBuffers(fileInfoBuf, fileBuf);
+                websocket.send(mixBuf);
+            };
+        } else if (! isImage) {
+            alert('file type must be image!');
+        } else {
+            alert('file size limit 2048 * 1024!');
+        }
+    }
+
+    //显示文本的消息
+    function showMessage(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    //显示二进制图片
+    function showBinaryImage(binary) {
+        var bytes = new Uint8Array(binary);
+        var blob = new Blob( [ bytes ], { type: "image/png" } );
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL( blob );
+        var img = document.createElement("img");
+        img.src = imageUrl;
+        output.appendChild(img);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    window.addEventListener("load", init, false);
+</script>
+<h2>File Upload</h2>
+Select file
+<input type="file" id="fileName" />
+<br>
+<input type="button" value="Upload" onclick="sendFile()" />
+<h2>WebSocket Test</h2>
+<div>请输入信息：
+    <input type="text" name="msg"><input type="submit" value="Send"  onclick="sendMessage(document.all.msg.value)">
+</div>
+<div id="output"></div>
+
+<a class="waves-effect waves-light btn" href="#modal1">Modal</a>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+<!--jquery js-->
+<script src="jslib/jquery/dist/jquery.min.js"></script>
+
+<!-- materialize js -->
+<script src="jslib/materialize/materialize.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>-->
+
+</html>

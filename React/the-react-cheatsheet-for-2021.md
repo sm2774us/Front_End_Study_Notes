@@ -36,7 +36,6 @@ There's a ton of great stuff to cover, so let's get started.
 	- [Components and Props](#components-and-props)
 	- [Lists and Keys](#lists-and-keys)
 	- [Event Listeners and Handling Events](#event-listeners-and-handling-events)
-	
   - [**Essential React Hooks**](#essential-react-hooks)
     <details>
     <summary>Click to expand!</summary>
@@ -44,7 +43,6 @@ There's a ton of great stuff to cover, so let's get started.
 	- [State and `useState`](#state-and-usestate)
     - [Side Effects and `useEffect`](#side-effects-and-useeffect)
     - [Refs and `useRef`](#refs-and-useref)
-
   - [**Hooks and Performance**](#hooks-and-peformance)
     <details>
     <summary>Click to expand!</summary>
@@ -52,7 +50,6 @@ There's a ton of great stuff to cover, so let's get started.
 	- [Preventing Re-renders and `React.memo`](#preventing-re-renders-and-reactmemo)
     - [Callback functions and `useCallback`](#callback-functions-and-usecallback)
     - [Memoization and `useMemo`](#memoization-and-usememo)
-
   - [**Advanced React Hooks**](#advanced-react-hooks)
     <details>
     <summary>Click to expand!</summary>
@@ -61,6 +58,7 @@ There's a ton of great stuff to cover, so let's get started.
 	- [Reducers and `useReducer`](#reducers-and-usereducer)
 	- [Writing custom hooks](#writing-custom-hooks)
 	- [Rules of hooks](#rules-of-hooks)
+  - [**Conclusion**](#conclusion)
 
 ## **React Fundamentals**
 
@@ -1119,10 +1117,305 @@ export default App
 ```
 
 ### Memoization and `useMemo`
+`useMemo` is very similar to `useCallback` and is for improving performance. But instead of being for callbacks, it is for storing the results of expensive calculations
+
+`useMemo` allows us to **memoize**, or remember the result of expensive calculations when they have already been made for certain inputs.
+
+Memoization means that if a calculation has been done before with a given input, there's no need to do it again, because we already have the stored result of that operation.
+
+`useMemo` returns a value from the computation, which is then stored in a variable.
+
+```JavaScript
+/* Building upon our skills app, let's add a feature to search through our available skills through an additional search input. We can add this in a component called SearchSkills (shown above our SkillList).
+*/
+
+function App() {
+  const [skill, setSkill] = React.useState('')
+  const [skills, setSkills] = React.useState([
+    'HTML', 'CSS', 'JavaScript', ...thousands more items
+  ])
+
+  function handleChangeInput(event) {
+    setSkill(event.target.value);
+  }
+
+  function handleAddSkill() {
+    setSkills(skills.concat(skill))
+  }
+
+  const handleRemoveSkill = React.useCallback((skill) => {
+    setSkills(skills.filter(s => s !== skill))
+  }, [skills])
+   
+  return (
+    <>
+      <SearchSkills skills={skills} />
+      <input onChange={handleChangeInput} />
+      <button onClick={handleAddSkill}>Add Skill</button>
+      <SkillList skills={skills} handleRemoveSkill={handleRemoveSkill} />
+    </>
+  );
+}
+
+/* Let's imagine we have a list of thousands of skills that we want to search through. How do we performantly find and show the skills that match our search term as the user types into the input ? */
+function SearchSkills() {
+  const [searchTerm, setSearchTerm] = React.useState('');  
+      
+  /* We use React.useMemo to memoize (remember) the returned value from our search operation and only run when it the searchTerm changes */
+  const searchResults = React.useMemo(() => {
+    return skills.filter((s) => s.includes(searchTerm);
+  }), [searchTerm]);
+    
+  function handleSearchInput(event) {
+    setSearchTerm(event.target.value);
+  }
+    
+  return (
+    <>
+    <input onChange={handleSearchInput} />
+    <ul>
+      {searchResults.map((result, i) => <li key={i}>{result}</li>
+    </ul>
+    </>
+  );
+}
+
+
+export default App
+```
 
 ## **Advanced React Hooks**
 
 ### Context and `useContext`
+
+In React, we want to avoid the following problem of creating multiple props to pass data down two or more levels from a parent component.
+
+```JavaScript
+/* 
+  React Context helps us avoid creating multiple duplicate props.
+  This pattern is also called props drilling.
+*/
+
+/* In this app, we want to pass the user data down to the Header component, but it first needs to go through a Main component which doesn't use it */
+function App() {
+  const [user] = React.useState({ name: "Fred" });
+
+  return (
+    // First 'user' prop
+    <Main user={user} />
+  );
+}
+
+const Main = ({ user }) => (
+  <>
+    {/* Second 'user' prop */}
+    <Header user={user} />
+    <div>Main app content...</div>
+  </>
+);
+
+const Header = ({ user }) => <header>Welcome, {user.name}!</header>;
+```
+
+Context is helpful for passing props down multiple levels of child components from a parent component.
+
+```JavaScript
+/* 
+  Here is the previous example rewritten with Context.
+  First we create context, where we can pass in default values
+  We call this 'UserContext' because we're passing down user data
+*/
+const UserContext = React.createContext();
+
+function App() {
+  const [user] = React.useState({ name: "Fred" });
+
+  return (
+    {/* 
+      We wrap the parent component with the Provider property 
+      We pass data down the component tree on the value prop
+     */}
+    <UserContext.Provider value={user}>
+      <Main />
+    </UserContext.Provider>
+  );
+}
+
+const Main = () => (
+  <>
+    <Header />
+    <div>Main app content</div>
+  </>
+);
+
+/* 
+  We can't remove the two 'user' props. Instead, we can just use the Consumer property to consume the data where we need it
+*/
+const Header = () => (
+    {/* We use a pattern called render props to get access to the data */}
+    <UserContext.Consumer>
+      {user => <header>Welcome, {user.name}!</header>}
+    </UserContext.Consumer>
+);
+```
+
+The `useContext` hook allows us to consume context in any function component that is a child of the Provider, instead of using the render props pattern.
+
+```JavaScript
+function Header() {
+  /* We pass in the entire context object to consume it and we can remove the Consumer tags */
+  const user = React.useContext(UserContext);
+    
+  return <header>Welcome, {user.name}!</header>;
+};
+```
+
 ### Reducers and `useReducer`
+
+Reducers are simple, predictable (pure) functions that take a previous state object and an action object and return a new state object.
+
+```JavaScript
+/* This reducer manages user state in our app: */
+
+function userReducer(state, action) {
+  /* Reducers often use a switch statement to update state in one way or another based on the action's type property */
+    
+  switch (action.type) {
+    /* If action.type has the string 'LOGIN' on it, we get data from the payload object on action */
+    case "LOGIN":
+      return { 
+        username: action.payload.username, 
+        email: action.payload.email
+        isAuth: true 
+      };
+    case "SIGNOUT":
+      return { 
+        username: "",
+        email: "",
+        isAuth: false 
+      };
+    default:
+      /* If no case matches the action received, return the previous state */
+      return state;
+  }
+}
+```
+
+Reducers are a powerful pattern for managing state that is used in the popular state management library Redux (commonly used with React).
+
+Reducers can be used in React with the `useReducer` hook in order to manage state across our app, as compared to useState (which is for local component state).
+
+`useReducer` can be paired with `useContext` to manage data and pass it around components easily.
+
+Thus `useReducer` + `useContext` can be an entire state management system for our apps.
+
+```JavaScript
+const initialState = { username: "", isAuth: false };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "LOGIN":
+      return { username: action.payload.username, isAuth: true };
+    case "SIGNOUT":
+      // could also spread in initialState here
+      return { username: "", isAuth: false };
+    default:
+      return state;
+  }
+}
+
+function App() {
+  // useReducer requires a reducer function to use and an initialState
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // we get the current result of the reducer on 'state'
+
+  // we use dispatch to 'dispatch' actions, to run our reducer
+  // with the data it needs (the action object)
+  function handleLogin() {
+    dispatch({ type: "LOGIN", payload: { username: "Ted" } });
+  }
+
+  function handleSignout() {
+    dispatch({ type: "SIGNOUT" });
+  }
+
+  return (
+    <>
+      Current user: {state.username}, isAuthenticated: {state.isAuth}
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleSignout}>Signout</button>
+    </>
+  );
+}
+```
+
 ### Writing custom hooks
+
+Hooks were created to easily reuse behavior between components, similar to how components were created to reuse structure across our application.
+
+Hooks let us add custom functionality to our apps that suits our needs and can be combined with all the existing hooks that we've covered.
+
+Hooks can also be included in third-party libraries for the sake of all React developers. There are many great React libraries that provide custom hooks such as `@apollo/client`, `react-query`, `swr` and more.
+
+```JavaScript
+/* Here is a custom React hook called useWindowSize that I wrote in order to calculate the window size (width and height) of any component it is used in */
+
+import React from "react";
+
+export default function useWindowSize() {
+  const isSSR = typeof window !== "undefined";
+  const [windowSize, setWindowSize] = React.useState({
+    width: isSSR ? 1200 : window.innerWidth,
+    height: isSSR ? 800 : window.innerHeight,
+  });
+
+  function changeWindowSize() {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize", changeWindowSize);
+
+    return () => {
+      window.removeEventListener("resize", changeWindowSize);
+    };
+  }, []);
+
+  return windowSize;
+}
+
+/* To use the hook, we just need to import it where we need, call it, and use the width wherever we want to hide or show certain elements, such as in a Header component. */
+
+// components/Header.js
+
+import React from "react";
+import useWindowSize from "../utils/useWindowSize";
+
+function Header() {
+  const { width } = useWindowSize();
+
+  return (
+    <div>
+      {/* visible only when window greater than 500px */}
+      {width > 500 && (
+        <>
+         Greater than 500px!
+        </>
+      )}
+      {/* visible at any window size */}
+	  <p>I'm always visible</p>
+    </div>
+  );
+}
+```
+
 ### Rules of hooks
+
+There are two essential rules of using React hooks that we cannot violate for them to work properly:
+
+* Hooks can only be used within function components (not plain JavaScript functions or class components)
+* Hooks can only be called at the top of components (they cannot be in conditionals, loops, or nested functions)
+
+## **Conclusion**
+
+There are other worthwhile concepts you can learn, but if you commit to learning the concepts covered in this cheatsheet, you'll have a great grasp of the most important and powerful parts of the React library.
