@@ -15,6 +15,7 @@
 - [**TypeScript**]
   - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
 - [**React**]
+  - [Top 10 Optimization Techniques Every React Developer Should Know](./React/top-10-optimization-techniques-every-react-developer-should-know.pdf)
   - [The React Cheatsheet for 2021‬ (+ Real-World Examples)](./React/the-react-cheatsheet-for-2021.md)
   - [React Reference Guide: Hooks API](./React/react-reference-guide-hooks-api.pdf)
   - [React Hooks cheat sheet: Best practices with examples](./React/react-hooks-cheat-sheet-unlock-solutions-to-common-problems.pdf)
