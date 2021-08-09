@@ -1,0 +1,1 @@
+(C: && cd C:\interview_prep\Full_Stack_Interview\full_stack_interview_prep_2021 && git.exe config --system core.longpaths true)
